@@ -1,0 +1,159 @@
+{
+  "main": {
+    "id": "4f8b56249d1fd35f",
+    "type": "split",
+    "children": [
+      {
+        "id": "4d10bd3c96052e3a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "224233a5d20e65de",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Haptic Feedback APIs of Android and IOS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "321225df996e3f4b",
+    "type": "split",
+    "children": [
+      {
+        "id": "10db7f04dd5a002f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a06fe15bb74dc77e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a49a0c549b50151a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "6da6f88c3682e799",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "68e7ccbc79cbaf50",
+    "type": "split",
+    "children": [
+      {
+        "id": "303b177fcac96ae9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e836e9214df19712",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Haptic Feedback APIs of Android and IOS.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "863eb81148453618",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Haptic Feedback APIs of Android and IOS.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "4a7e938890ceef27",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "ea936baf70f68453",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Haptic Feedback APIs of Android and IOS.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "224233a5d20e65de",
+  "lastOpenFiles": [
+    "Existing accesibility options in popular visualization libraries.md",
+    "How do blind people use computers?.md",
+    "SENSE Literature Review.md",
+    "Haptic Feedback APIs of Android and IOS.md",
+    "Blind People Tech.md",
+    "[Blind.md",
+    "Blind.md"
+  ]
+}
