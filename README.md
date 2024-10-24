@@ -2,6 +2,7 @@
 
 Accesible plotting library that implements heuristic sonification methods to provide first-class accesibility features
 for low vision and blind individuals.
+![Toph using sound](assets/toph.gif)
 
 ## Team Members
 
