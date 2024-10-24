@@ -18,7 +18,7 @@ class AudioStage:
     CHUNK_SIZE = 1024
 
     def __init__(
-        self, frame_rate: int = 44100, sample_width: int = 2, n_channels: int = 2
+        self, frame_rate: int = 48000, sample_width: int = 2, n_channels: int = 2
     ):
         """Initialize a sound stage
         :param frame_rate: frame rate for the audio track,
@@ -71,4 +71,3 @@ class AudioStage:
         self._stream.stop_stream()
         self._stream.close()
         self._pyaudio.terminate()
-        print("WE ARE HERE")
