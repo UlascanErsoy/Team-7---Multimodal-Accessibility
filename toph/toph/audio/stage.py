@@ -71,3 +71,4 @@ class AudioStage:
         self._stream.stop_stream()
         self._stream.close()
         self._pyaudio.terminate()
+        print("WE ARE HERE")
