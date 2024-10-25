@@ -46,7 +46,7 @@ class Playable(ABC):
         return data
 
     # should return bytes or should the AudioStage handle this ?
-    def consume(self, len: int) -> bytes:
+    def consume(self, chunk_size: int) -> bytes:
         """The Stage class consumes the data
         using this class.
         """
@@ -56,28 +56,31 @@ class Playable(ABC):
 class SineWave(Playable):
     """The simplest sine generator"""
 
-    def __init__(self, f: int, secs: float):
+    def __init__(self, vol: float, f: int, secs: float):
         """
         :param f: frequency in hz
         :type f: int
+        :param vol: volume (0, 1)
+        :type vol: float
         :param secs: how many seconds should it last
         :type secs: int
         """
         self.secs: float = secs
+        self.vol: float = vol
         self.f: int = f
         super().__init__()
 
-    def consume(self, len: int) -> np.ndarray:
+    def consume(self, chunk_size: int) -> np.ndarray:
         """Consume the sine wave"""
         total_frames = int(self.secs * self.FRAME_RATE)
         samples = np.linspace(0, self.secs, total_frames, endpoint=False)
-        signal = np.sin(2 * np.pi * self.f * samples)
+        signal = self.vol * np.sin(2 * np.pi * self.f * samples)
         signal = self._apply_effects(signal)
         cursor = 0
 
         while cursor <= samples.shape[0]:
-            yield signal[cursor : min(cursor + len, total_frames)]
-            cursor += len
+            yield signal[cursor : min(cursor + chunk_size, total_frames)]
+            cursor += chunk_size
 
 
 class Silence(Playable):
@@ -91,16 +94,16 @@ class Silence(Playable):
         self.secs: float = secs
         super().__init__()
 
-    def consume(self, len: int) -> np.ndarray:
+    def consume(self, chunk_size: int) -> np.ndarray:
         """Consume the silence"""
         cursor = 0
         while cursor <= int(self.secs * self.FRAME_RATE):
-            yield np.zeros(min(len, int(self.secs * self.FRAME_RATE) - cursor))
-            cursor += len
+            yield np.zeros(min(chunk_size, int(self.secs * self.FRAME_RATE) - cursor))
+            cursor += chunk_size
 
 
 class Chain(Playable):
-    """Chain playables together"""
+    """Chain playables sequentially"""
 
     def __init__(self, *args):
         """Takes a list of playables chains
@@ -112,8 +115,44 @@ class Chain(Playable):
         if any([not isinstance(arg, Playable) for arg in args]):
             raise TypeError("All arguments must be playables")
 
-    def consume(self, len: int) -> np.ndarray:
+    def consume(self, chunk_size: int) -> np.ndarray:
         """Consume the chain"""
         for p in self.chain:
-            for chunk in p.consume(len):
+            for chunk in p.consume(chunk_size):
                 yield self._apply_effects(chunk)
+
+
+class MultiTrack(Playable):
+    """MultiTrack class"""
+
+    def __init__(self, *args):
+        """Takes a list of playables and
+        consumes them simultaneously
+        """
+        self.tracks: List[Playable] = args
+        super().__init__()
+
+    def consume(self, chunk_size: int) -> np.ndarray:
+        """Consume the MultiTrack"""
+        gens = [gen.consume(chunk_size) for gen in self.tracks]
+
+        base = np.zeros((chunk_size,))
+        terms = [True] * len(gens)
+
+        while any(terms):
+            base = np.zeros((chunk_size,))
+            for idx, gen in enumerate(gens):
+                try:
+                    data = next(gen)
+                except StopIteration:
+                    data = np.zeros((chunk_size,))
+                    terms[idx] = False
+
+                if data.shape[0] < chunk_size:
+                    data = np.pad(
+                        data, (0, chunk_size - data.shape[0]), mode="constant"
+                    )
+
+                base += data
+
+            yield base
