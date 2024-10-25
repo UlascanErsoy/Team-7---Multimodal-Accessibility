@@ -31,7 +31,7 @@ class SpatialPanner(Effect):
         ndata = np.empty((data.shape[0],))
 
         real_dir = (self.dir + 1) / 2
-        ndata[0::2] = data[0::2] * real_dir
-        ndata[1::2] = data[1::2] * (1.0 - real_dir)
+        ndata[0::2] = data[0::2] * (1.0 - real_dir)
+        ndata[1::2] = data[1::2] * real_dir
 
         return ndata
