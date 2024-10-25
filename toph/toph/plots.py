@@ -21,7 +21,9 @@ def bar(x, y, bars=1.5, gaps=0.5, ylims=(110, 880)):
 
         place = -1 + 2 * (x[idx] - x_min) / (x_max - x_min)
 
-        sonics.append(SineWave(f=freq, secs=bars).add_effect(SpatialPanner(dir=place)))
+        sonics.append(
+            SineWave(vol=0.5, f=freq, secs=bars).add_effect(SpatialPanner(dir=place))
+        )
         if idx < len(y) - 1:
             diff = np.abs(x[idx + 1] - x[idx])
             sonics.append(Silence(secs=gaps * diff))
