@@ -10,7 +10,8 @@ requires-python = ">= 3.10"
 dependencies = [
     "pyaudio>=0.2.14",
     "numpy>=1.18.0",
-    "matplotlib>=3.6.4"
+    "matplotlib>=3.6.4",
+    "scipy>=1.11.0"
 ]
 authors = [
     {name = "Muhammed Ersoy", email = "mue@tamu.edu"},
