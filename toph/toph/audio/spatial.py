@@ -356,8 +356,8 @@ class SpatialPanner(Effect):
             elevation=self.elevation,
         )
 
-        x_l = np.convolve(x[0::2], hrir_l, mode="same")
-        x_r = np.convolve(x[0::2], hrir_r, mode="same")
+        x_l = np.convolve(x[0::2], hrir_l, mode="valid")
+        x_r = np.convolve(x[0::2], hrir_r, mode="valid")
 
         nx = np.vstack((x_l, x_r)).T
 
