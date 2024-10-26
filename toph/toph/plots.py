@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from toph.audio.effect import SpatialPanner
+from toph.audio.effect import SimplePanner
 from toph.audio.playable import Chain, Silence, SineWave
 from toph.audio.stage import AudioStage
 
@@ -22,7 +22,7 @@ def bar(x, y, bars=1.5, gaps=0.5, ylims=(110, 880)):
         place = -1 + 2 * (x[idx] - x_min) / (x_max - x_min)
 
         sonics.append(
-            SineWave(vol=0.5, f=freq, secs=bars).add_effect(SpatialPanner(dir=place))
+            SineWave(vol=0.5, f=freq, secs=bars).add_effect(SimplePanner(dir=place))
         )
         if idx < len(y) - 1:
             diff = np.abs(x[idx + 1] - x[idx])
