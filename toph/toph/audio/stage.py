@@ -68,15 +68,18 @@ class AudioStage:
         for chunk in p.consume(self.CHUNK_SIZE):
             self._stream.write(int16_bytes(chunk))
 
-    def save(self, p: Playable, path: str):
+    def save(self, p: Playable, path: str, force_mono: bool = False):
         """ """
         chunks = [chunk for chunk in p.consume(self.CHUNK_SIZE)]
         out = np.hstack(chunks)
 
         # convert interleaved to 2d
-        lr = out[::2]
-        rr = out[1::2]
-        out = np.array([lr, rr]).T
+        if not force_mono:
+            lr = out[::2]
+            rr = out[1::2]
+            out = np.array([lr, rr]).T
+        else:
+            out = out[::2]
 
         wavfile.write(
             filename=path + ".wav",
