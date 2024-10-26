@@ -46,6 +46,8 @@ pre-commit install
 CIPIC_PATH=<path-to-your-hrir-file>
 ```
 
+[CIPIC Github](https://github.com/amini-allight/cipic-hrtf-database/tree/master/standard_hrir_database)
+
 6. **Develop** 
 
 ## Notes
