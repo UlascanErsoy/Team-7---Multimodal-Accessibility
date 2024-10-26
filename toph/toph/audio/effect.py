@@ -15,7 +15,7 @@ class Effect(ABC):
         raise NotImplementedError("All effects must implement this")
 
 
-class SpatialPanner(Effect):
+class SimplePanner(Effect):
     """The simplest spatial panner (l/r)"""
 
     def __init__(self, dir: float = 0):

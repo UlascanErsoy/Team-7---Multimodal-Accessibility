@@ -2,7 +2,9 @@
 
 from typing import Optional
 
+import numpy as np
 import pyaudio
+from scipy.io import wavfile
 
 from toph.audio.playable import Playable
 from toph.audio.utils import int16_bytes
@@ -18,7 +20,7 @@ class AudioStage:
     CHUNK_SIZE = 1024
 
     def __init__(
-        self, frame_rate: int = 48000, sample_width: int = 2, n_channels: int = 2
+        self, frame_rate: int = 44100, sample_width: int = 2, n_channels: int = 2
     ):
         """Initialize a sound stage
         :param frame_rate: frame rate for the audio track,
@@ -65,6 +67,23 @@ class AudioStage:
 
         for chunk in p.consume(self.CHUNK_SIZE):
             self._stream.write(int16_bytes(chunk))
+
+    def save(self, p: Playable, path: str):
+        """ """
+        chunks = [chunk for chunk in p.consume(self.CHUNK_SIZE)]
+        out = np.hstack(chunks)
+
+        # convert interleaved to 2d
+        lr = out[::2]
+        rr = out[1::2]
+        out = np.array([lr, rr]).T
+
+        wavfile.write(
+            filename=path + ".wav",
+            rate=self.frame_rate,
+            # todo: handle formats other than int16, make it better
+            data=np.asarray(out * 32767, dtype=np.int16),
+        )
 
     def __exit__(self, type_, value, traceback):
         """Exit method for the context manager"""

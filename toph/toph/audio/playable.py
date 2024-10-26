@@ -1,9 +1,10 @@
 """Default playables for toph"""
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 import numpy as np
+from scipy.io import wavfile
 
 from toph.audio.effect import Effect
 
@@ -75,11 +76,53 @@ class SineWave(Playable):
         total_frames = int(self.secs * self.FRAME_RATE)
         samples = np.linspace(0, self.secs, total_frames, endpoint=False)
         signal = self.vol * np.sin(2 * np.pi * self.f * samples)
+
+        if self.CHANNELS == 2:
+            signal = np.repeat(signal, 2)
+
+        # TODO: maybe this should be applied in a windowed manner (?)
+        # should effects be local or global (?)
         signal = self._apply_effects(signal)
         cursor = 0
 
         while cursor <= samples.shape[0]:
-            yield signal[cursor : min(cursor + chunk_size, total_frames)]
+            yield signal[
+                cursor : min(
+                    cursor + chunk_size * self.CHANNELS, self.CHANNELS * total_frames
+                )
+            ]
+            cursor += chunk_size * self.CHANNELS
+
+
+class Wave(Playable):
+    """Wavefile playable"""
+
+    def __init__(self, path: str, secs: Optional[int] = None):
+        """Load wavefile"""
+        # todo implement sub and super sampling
+        self._path: str = path
+        # if none there is no looping or truncation
+        # todo
+        self.secs = secs
+        super().__init__()
+
+    def consume(self, chunk_size: int) -> np.ndarray:
+        """Consume the wav file"""
+
+        samplerate, wf = wavfile.read(self._path)
+
+        # todo: other types
+        if wf.dtype == np.int16:
+            wf = wf / 32767
+
+        if self.CHANNELS == 2:
+            wf = np.repeat(wf, 2)
+
+        wf = self._apply_effects(wf)
+
+        cursor = 0
+        while cursor <= wf.shape[0]:
+            yield wf[cursor : min(cursor + chunk_size, len(wf))]
             cursor += chunk_size
 
 
@@ -97,9 +140,14 @@ class Silence(Playable):
     def consume(self, chunk_size: int) -> np.ndarray:
         """Consume the silence"""
         cursor = 0
-        while cursor <= int(self.secs * self.FRAME_RATE):
-            yield np.zeros(min(chunk_size, int(self.secs * self.FRAME_RATE) - cursor))
-            cursor += chunk_size
+        while cursor <= int(self.CHANNELS * self.secs * self.FRAME_RATE):
+            yield np.zeros(
+                min(
+                    self.CHANNELS * chunk_size,
+                    int(self.CHANNELS * self.secs * self.FRAME_RATE) - cursor,
+                )
+            )
+            cursor += chunk_size * self.CHANNELS
 
 
 class Chain(Playable):
@@ -155,4 +203,4 @@ class MultiTrack(Playable):
 
                 base += data
 
-            yield base
+            yield self._apply_effects(base)
