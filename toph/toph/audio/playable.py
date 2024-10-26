@@ -85,7 +85,7 @@ class SineWave(Playable):
         signal = self._apply_effects(signal)
         cursor = 0
 
-        while cursor <= samples.shape[0]:
+        while cursor <= samples.shape[0] * self.CHANNELS:
             yield signal[
                 cursor : min(
                     cursor + chunk_size * self.CHANNELS, self.CHANNELS * total_frames
@@ -122,8 +122,8 @@ class Wave(Playable):
 
         cursor = 0
         while cursor <= wf.shape[0]:
-            yield wf[cursor : min(cursor + chunk_size, len(wf))]
-            cursor += chunk_size
+            yield wf[cursor : min(cursor + self.CHANNELS * chunk_size, len(wf))]
+            cursor += chunk_size * self.CHANNELS
 
 
 class Silence(Playable):
@@ -184,23 +184,29 @@ class MultiTrack(Playable):
         """Consume the MultiTrack"""
         gens = [gen.consume(chunk_size) for gen in self.tracks]
 
-        base = np.zeros((chunk_size,))
+        base = np.zeros((chunk_size * self.CHANNELS,))
         terms = [True] * len(gens)
 
         while any(terms):
-            base = np.zeros((chunk_size,))
+            base = np.zeros((chunk_size * self.CHANNELS,))
+            max_new_chunk = 0
             for idx, gen in enumerate(gens):
                 try:
                     data = next(gen)
+                    max_new_chunk = max(len(data), max_new_chunk)
                 except StopIteration:
-                    data = np.zeros((chunk_size,))
+                    data = np.zeros((chunk_size * self.CHANNELS,))
                     terms[idx] = False
 
-                if data.shape[0] < chunk_size:
+                if data.shape[0] < chunk_size * self.CHANNELS:
                     data = np.pad(
-                        data, (0, chunk_size - data.shape[0]), mode="constant"
+                        data,
+                        (0, chunk_size * self.CHANNELS - data.shape[0]),
+                        mode="constant",
                     )
 
                 base += data
+
+            base = base[: min(max_new_chunk, chunk_size * self.CHANNELS)]
 
             yield self._apply_effects(base)
