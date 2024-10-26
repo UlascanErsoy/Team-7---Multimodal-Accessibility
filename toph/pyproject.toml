@@ -11,7 +11,8 @@ dependencies = [
     "pyaudio>=0.2.14",
     "numpy>=1.18.0",
     "matplotlib>=3.6.4",
-    "scipy>=1.11.0"
+    "scipy>=1.11.0",
+    "python-dotenv"
 ]
 authors = [
     {name = "Muhammed Ersoy", email = "mue@tamu.edu"},
