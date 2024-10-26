@@ -38,6 +38,13 @@ pre-commit install
 
 5. *(Optional)* Test that your installation is working correctly by running some scripts from the examples/ folder
 
+6. *(For spatial audio)* Download an HRIR file from the CIPIC database.
+
+7. *(For spatial audio)* create a `.env` file in your work environment.
+
+```
+CIPIC_PATH=<path-to-your-hrir-file>
+```
 
 6. **Develop** 
 
