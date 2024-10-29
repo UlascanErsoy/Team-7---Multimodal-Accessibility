@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Toph"
+description = "A plotting library that has accesibility with native sonification capabilities" 
+dynamic = ["version"]
+requires-python = ">= 3.10"
+dependencies = [
+    "pyaudio>=0.2.14",
+    "numpy>=1.18.0",
+    "matplotlib>=3.6.4",
+    "scipy>=1.11.0",
+    "python-dotenv"
+]
+authors = [
+    {name = "Muhammed Ersoy", email = "mue@tamu.edu"},
+    {name = "Yu-Sheng (Chris) Chen", email = "chenyus0609@tamu.edu"},
+    {name = "Tejashri Kelhe", email = "tejashri.kelhe@gmail.com"},
+    {name = "Rithvik Srinivasaiya", email = "ritham.rithvik2000@gmail.com"},
+    {name = "Marcus Kadam", email = "kshitijmkadam@gmail.com"}
+]
+readme = "README.md"
+
+[project.urls]
+Github = "https://github.com/UlascanErsoy/Team-7---Multimodal-Accessibility/tree/toph-audio-processing"
+
+[tool.setuptools.dynamic]
+version = {attr = "toph.__version__"}
