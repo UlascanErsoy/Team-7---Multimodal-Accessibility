@@ -25,6 +25,7 @@ SOFTWARE.
 
 import itertools
 import os
+from typing import Optional
 
 import numpy as np
 import numpy.linalg
@@ -32,6 +33,7 @@ import scipy.io
 import scipy.signal
 import scipy.spatial
 
+from toph.audio.distance import BaseDistanceModel, IPLDistanceModel
 from toph.audio.effect import Effect
 from toph.audio.playable import Playable
 
@@ -287,12 +289,20 @@ T_INV = calculate_T_inv(triang=TRI, points=POINTS)
 class SpatialPanner(Effect):
     """Main page of the application."""
 
-    def __init__(self, azimuth: float, elevation: float):
+    def __init__(
+        self,
+        azimuth: float,
+        elevation: float,
+        distance: float = 1.0,
+        distance_model: Optional[BaseDistanceModel] = None,
+    ):
         """
         :param azimuth: azimuth of the direction angles (think l / r)
         :type azimuth: float
         :param elevation: elevation of the direction in angles
         :type azimuth: float
+        :param distance: distance of the source in 1r 2r etc
+        :type distance: float
         """
         # maybe implement a sensible auto-download for a default
         if not CIPIC_BASE_PATH:
@@ -302,6 +312,9 @@ class SpatialPanner(Effect):
 
         self.azimuth: float = azimuth
         self.elevation: float = elevation
+        self.distance: float = distance
+
+        self._dist_model: BaseDistanceModel = distance_model or IPLDistanceModel()
 
         self.buffer_OLAP = np.zeros(M - 1)
 
@@ -312,11 +325,14 @@ class SpatialPanner(Effect):
         """Apply spatial effect"""
         output, cursor = [], 0
 
+        # TODO: more efficient
         while cursor < len(data):
             output.append(self._apply_chunk(data[cursor : cursor + L]))
             cursor += L
 
-        return np.hstack(output)
+        # TODO: think about keyframing in the future
+        d = self._dist_model(self.distance)
+        return d * np.hstack(output)
 
     def _apply_chunk(self, x: np.ndarray) -> np.ndarray:
         """Initialize the audio stream in callback mode and performs
