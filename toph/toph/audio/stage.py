@@ -68,8 +68,14 @@ class AudioStage:
         for chunk in p.consume(self.CHUNK_SIZE):
             self._stream.write(int16_bytes(chunk))
 
-    def save(self, p: Playable, path: str, force_mono: bool = False):
-        """ """
+    def get_ndarray(self, p: Playable, force_mono: bool = False) -> np.ndarray:
+        """Convert the playable into a numpy nd array
+        :param p: Playable
+        :type p: Playable
+        :param force_mono: force convert audio to mono
+        :type force_mono: bool
+        :rtype: np.ndarray
+        """
         chunks = [chunk for chunk in p.consume(self.CHUNK_SIZE)]
         out = np.hstack(chunks)
 
@@ -81,11 +87,22 @@ class AudioStage:
         else:
             out = out[::2]
 
+        return np.asarray(out * 32767, dtype=np.int16)
+
+    def save(self, p: Playable, path: str, force_mono: bool = False):
+        """Save the playable into a 16-bit wave file
+        :param p: Playable
+        :type p: Playable
+        :param force_mono: force convert audio to mono
+        :type force_mono: bool
+        """
+
+        arr = self.get_ndarray(p, force_mono)
         wavfile.write(
-            filename=path + ".wav",
+            filename=path,
             rate=self.frame_rate,
             # todo: handle formats other than int16, make it better
-            data=np.asarray(out * 32767, dtype=np.int16),
+            data=arr,
         )
 
     def __exit__(self, type_, value, traceback):
