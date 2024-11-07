@@ -66,7 +66,7 @@
   },
   {
     "ttype": "Example",
-    "plot":19,
+    "plot":15,
     "title":"Frequency Based Audio Representation",
     "explanation":"In this section, the audio will be encoded using `Frequency` rather than `Directionality`.",
     "sonify":"sonify_y_ax",
