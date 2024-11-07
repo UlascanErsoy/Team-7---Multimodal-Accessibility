@@ -83,6 +83,11 @@ class AudioStage:
         if not force_mono:
             lr = out[::2]
             rr = out[1::2]
+
+            # in case by some miracle there is inhomogeneity
+            if len(rr) < len(lr):
+                rr = np.append(rr, lr[-1])
+
             out = np.array([lr, rr]).T
         else:
             out = out[::2]
