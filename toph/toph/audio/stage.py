@@ -47,12 +47,14 @@ class AudioStage:
 
     def __enter__(self):
         """Entry method for the context manager"""
-        self._stream = self._pyaudio.open(
-            format=self._pyaudio.get_format_from_width(self.sample_width),
-            channels=self.n_channels,
-            rate=self.frame_rate,
-            output=True,
-        )
+
+        if not self._no_dev_mode:
+            self._stream = self._pyaudio.open(
+                format=self._pyaudio.get_format_from_width(self.sample_width),
+                channels=self.n_channels,
+                rate=self.frame_rate,
+                output=True,
+            )
 
         # do we need to do the thing where we store the old values
         # and do the switcheroo
@@ -109,6 +111,7 @@ class AudioStage:
 
     def __exit__(self, type_, value, traceback):
         """Exit method for the context manager"""
-        self._stream.stop_stream()
-        self._stream.close()
-        self._pyaudio.terminate()
+        if not self._no_dev_mode:
+            self._stream.stop_stream()
+            self._stream.close()
+            self._pyaudio.terminate()
