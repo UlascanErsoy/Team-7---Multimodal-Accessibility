@@ -32,6 +32,8 @@ class AudioStage:
         :type n_channels: int
         """
         self._pyaudio = pyaudio.PyAudio()
+        # no output devices
+        self._no_dev_mode = self._pyaudio.get_device_count() == 0
         self.frame_rate: int = frame_rate
         self.sample_width: int = sample_width
         self.n_channels: int = n_channels
