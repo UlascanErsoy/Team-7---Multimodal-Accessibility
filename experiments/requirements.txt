@@ -2,4 +2,5 @@ git+https://github.com/CristiFati/pyaudio
 streamlit
 gspread
 oauth2client
-git+https://github.com/UlascanErsoy/Team-7---Multimodal-Accessibility@main/toph
+git+https://github.com/UlascanErsoy/Team-7---Multimodal-Accessibility@main#subdirectory=toph
+streamlit_extras
