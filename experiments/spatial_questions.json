@@ -1,0 +1,237 @@
+[
+  {
+    "ttype": "Example",
+    "plot":4,
+    "title":"Directional (Spatial) Audio",
+    "explanation":"In this section you are going to hear an audio file where the vertical coordinates in the graph correspond to the direction of the audio. You will be asked to match the audio with a chart.",
+    "sonify":"sonify_y_ax",
+    "args": {
+      "mode": "full_spatial"
+    }
+  },
+  {
+    "description": "Test if they can distinguish vastly different shapes",
+    "ttype": "question",
+    "plots": [
+      14,
+      0,
+      3,
+      5
+    ],
+    "answer": 3
+  },
+  {
+    "description": "Can they distinguish the shape of a dip",
+    "ttype": "question",
+    "plots": [
+      9,
+      6,
+      0,
+      8 
+    ],
+    "answer": 9 
+  },
+  {
+    "description": "Can they distinguish the shape of a monotonous increase",
+    "ttype": "question",
+    "plots": [
+      10,
+      12,
+      5,
+      16
+    ],
+    "answer": 12 
+  },
+  {
+    "description": "Test if they can distinguish the shape of a monotonous decrease",
+    "ttype": "question",
+    "plots": [
+      2,
+      17,
+      1,
+      4 
+    ],
+    "answer": 1
+  },
+  {
+    "description": "Test if they can distinguish the shape of a step",
+    "ttype": "question",
+    "plots": [
+      6,
+      5,
+      14,
+      2
+    ],
+    "answer": 5
+  },
+  {
+    "ttype": "Example",
+    "plot":19,
+    "title":"Frequency Based Audio Representation",
+    "explanation":"In this section, the audio will be encoded using `Frequency` rather than `Directionality`.",
+    "sonify":"sonify_y_ax",
+    "args": {
+      "mode": "pitch"
+    }
+  },
+  {
+    "description": "Test if they can distinguish vastly different shapes",
+    "ttype": "question",
+    "plots": [
+      7,
+      14,
+      0,
+      9
+    ],
+    "answer": 7 
+  },
+  {
+    "description": "Can they distinguish the shape of a dip",
+    "ttype": "question",
+    "plots": [
+      4,
+      9,
+      6,
+      8 
+    ],
+    "answer":  6 
+  },
+  {
+    "description": "Can they distinguish the shape of a monotonous increase",
+    "ttype": "question",
+    "plots": [
+      10,
+      12,
+      15,
+      16
+    ],
+    "answer": 15 
+  },
+  {
+    "description": "Test if they can distinguish the shape of a monotonous decrease",
+    "ttype": "question",
+    "plots": [
+      2,
+      17,
+      1,
+      4 
+    ],
+    "answer": 17
+  },
+  {
+    "description": "Test if they can distinguish the shape of a step",
+    "ttype": "question",
+    "plots": [
+      2,
+      6,
+      14,
+      5
+    ],
+    "answer": 5
+  },
+ {
+    "ttype":"user_preference",
+    "explanation":"Between `Directional` and `Frequency` based audio, which one did you prefer?",
+    "options":[
+      "Directional",
+      "Frequency Based"
+    ]
+  },
+
+  {
+    "ttype": "Example",
+    "plot":24,
+    "title":"Density Based Directional Audio",
+    "explanation":"In this section, you are going to listen to audio that encodes the horizontal axis using directional audio.",
+    "sonify":"sonify_x_ax",
+    "args": {
+      "x_mode": "spatial",
+      "y_mode": "static"
+    }
+  },
+  {
+    "description": "Test if they can distinguish different densities",
+    "ttype": "question",
+    "plots": [
+      25,
+      29,
+      24,
+      26
+    ],
+    "answer": 26
+  },
+  {
+    "description": "Test if they can distinguish different densities",
+    "ttype": "question",
+    "plots": [
+      25,
+      22,
+      31,
+      24
+    ],
+    "answer": 31
+  },
+  {
+    "description": "Test if they can distinguish different densities",
+    "ttype": "question",
+    "plots": [
+      32,
+      26,
+      27,
+      33
+    ],
+    "answer": 33
+  },
+  {
+    "ttype": "Example",
+    "plot":25,
+    "title":"Silencing Based Density",
+    "explanation":"In this section the horizontal axis will be encoded using Gaps / Silences between the tones.",
+    "sonify":"sonify_x_ax",
+    "args": {
+      "x_mode": "gaps",
+      "y_mode": "static"
+    }
+  },
+  {
+    "description": "Test if they can distinguish different densities",
+    "ttype": "question",
+    "plots": [
+      25,
+      24,
+      29,
+      26
+    ],
+    "answer": 24
+  },
+  {
+    "description": "Test if they can distinguish different densities",
+    "ttype": "question",
+    "plots": [
+      24,
+      25,
+      31,
+      22
+    ],
+    "answer": 22 
+  },
+  {
+    "description": "Test if they can distinguish different densities",
+    "ttype": "question",
+    "plots": [
+      26,
+      27,
+      32,
+      33
+    ],
+    "answer": 32
+  },
+  {
+    "ttype":"user_preference",
+    "explanation":"Between `Directional` and `Gap / Silence` based audio encoding, which one did you prefer?",
+    "options":[
+      "Directional",
+      "Silence"
+    ]
+  }
+]
